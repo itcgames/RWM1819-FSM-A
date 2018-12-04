@@ -56,4 +56,6 @@ class NStateMEvent
     this.currentState.draw()
   }
 
+  
+
 }

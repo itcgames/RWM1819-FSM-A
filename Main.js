@@ -13,7 +13,7 @@ function main()
   var fsm;
 
   stateOnImage = new Image();
-  stateOnImage.src = 'lightswitchOn.png';
+  stateOnImage.src = '../Images/lightswitchOn.png';
   stateOn = new State("On", {
       width: 419,
       height: 408,
@@ -21,7 +21,7 @@ function main()
     });
 
   stateOffImage = new Image();
-  stateOffImage.src = 'lightswitchOff.png';
+  stateOffImage.src = '../Images/lightswitchOff.png';
   stateOff = new State("Off", {
       width: 419,
       height: 408,
@@ -33,6 +33,8 @@ function main()
   eventOff = new Event("Turn Off", stateOn, stateOff, false)
 
   fsm = new TwoStateTwoEvent("Light Switch", stateOn, stateOff, eventSwitch);
+
+  fsm.drawTable()
 
   var nmFSM;
   var stateGearStickOff;
@@ -54,7 +56,7 @@ function main()
   var event5_6;
 
   var gearStickImage = new Image();
-  gearStickImage.src = 'gearstick.jfif';
+  gearStickImage.src = '../Images/gearstick.jfif';
 
   stateGearStickOff = new State("Off", {
     width: 1200,
@@ -127,16 +129,16 @@ function main()
 
 
   carKey = new Image();
-  carKey.src = 'carkey.jpeg';
+  carKey.src = '../Images/carkey.jpeg';
 
   carReverse = new Image();
-  carReverse.src = 'reverse.jpg';
+  carReverse.src = '../Images/reverse.jpg';
 
   carUp = new Image();
-  carUp.src = 'up.png';
+  carUp.src = '../Images/up.png';
 
   carDown = new Image();
-  carDown.src = 'down.png';
+  carDown.src = '../Images/down.png';
 
   nmFSM = new NStateMEvent("Gear Stick", stateGearStickOff);
 
