@@ -72,6 +72,27 @@ class Event
       }
     }
 
+    getOutcome(state)
+    {
+      // First state to second
+      if(state.name === this.firstState.name)
+      {
+        return this.secondState;
+      } // Second state to first if it is a two way event
+      else if(state.name === this.secondState.name && this.twoWay)
+      {
+        return this.firstState;
+      } // Error can't transition this way
+      else if (this.twoWay === false)
+      {
+        console.log("Transition error! Can't transition backwards (" + this.secondState.name + " to " + this.firstState.name + ")");
+      }
+      else // Error state not found
+      {
+        console.log("Transition error! " + state.name + " not found in event " + this.id);
+      }
+    }
+
     transition(fsm, id)
     {
       if(id === undefined || this.idS2 === "")
@@ -119,7 +140,7 @@ class Event
       }
 
       if (typeof fsm.updateAvailableEvents !== "undefined") {
-        fsm.updateAvailableEvents();
+        fsm.updateAvailableEvents(true);
       }
     }
 }

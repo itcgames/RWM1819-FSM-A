@@ -265,7 +265,9 @@ function main()
   nmFSM.addEvent(event5_4);
   nmFSM.addEvent(event6_5);
 
-  nmFSM.updateAvailableEvents();
+  nmFSM.updateAvailableEvents(true);
 
   document.getElementById("canvas").onclick = function() {fsm.changeState()};
+
+  nmFSM.drawTable();
 }
