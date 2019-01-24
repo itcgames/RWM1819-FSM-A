@@ -264,10 +264,8 @@ function main()
   nmFSM.addEvent(event4_3);
   nmFSM.addEvent(event5_4);
   nmFSM.addEvent(event6_5);
-
+  
   nmFSM.updateAvailableEvents(true);
-
-  nmFSM.changeState(eventKey);
 
   document.getElementById("canvas").onclick = function() {fsm.changeState()};
 

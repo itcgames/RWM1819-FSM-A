@@ -93,6 +93,57 @@ class Event
       }
     }
 
+    changeState(fsm, id)
+    {
+      if(id === undefined || this.idS2 === "")
+      {
+        // First state to second
+        if(fsm.currentState.name === this.firstState.name)
+        {
+          //console.log(this.firstState.name + " to " + this.secondState.name);
+          return this.secondState;
+        } // Second state to first if it is a two way event
+        else if(fsm.currentState.name === this.secondState.name && this.twoWay)
+        {
+          //console.log(this.secondState.name + " to "  + this.firstState.name);
+          return this.firstState;
+        } // Error can't transition this way
+        else if (this.twoWay === false)
+        {
+          console.log("Transition error! Can't transition backwards (" + this.secondState.name + " to " + this.firstState.name + ")");
+        }
+        else // Error state not found
+        {
+          console.log("Transition error! " + state.name + " not found in event " + this.id);
+        }
+      }
+      else {
+        // First state to second
+        if(id === this.idS1)
+        {
+          console.log(this.firstState.name + " to " + this.secondState.name);
+          return fsm.currentState = this.secondState;
+        } // Second state to first if it is a two way event
+        else if(id === this.idS2 && this.twoWay)
+        {
+          console.log(this.secondState.name + " to "  + this.firstState.name);
+          return this.firstState;
+        } // Error can't transition this way
+        else if (this.twoWay === false)
+        {
+          console.log("Transition error! Can't transition backwards (" + this.secondState.name + " to " + this.firstState.name + ")");
+        }
+        else // Error state not found
+        {
+          console.log("Transition error! " + state.name + " not found in event " + this.id);
+        }
+      }
+
+      if (typeof fsm.updateAvailableEvents !== "undefined") {
+        fsm.updateAvailableEvents(true);
+      }
+    }
+
     transition(fsm, id)
     {
       if(id === undefined || this.idS2 === "")
@@ -102,11 +153,13 @@ class Event
         {
           //console.log(this.firstState.name + " to " + this.secondState.name);
           fsm.currentState = this.secondState;
+          //return this.secondState;
         } // Second state to first if it is a two way event
         else if(fsm.currentState.name === this.secondState.name && this.twoWay)
         {
           //console.log(this.secondState.name + " to "  + this.firstState.name);
           fsm.currentState = this.firstState;
+          //return this.firstState;
         } // Error can't transition this way
         else if (this.twoWay === false)
         {
