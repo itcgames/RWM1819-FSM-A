@@ -16,9 +16,12 @@ class State {
 
   draw()
   {
-    var c = document.getElementById("canvas");
-    var ctx=c.getContext("2d");
-    ctx.drawImage(this.image, 0 ,0, this.imageWidth, this.imageHeight,
-                              0, 0, 100, 100);
+	  if(this.image != undefined)
+	  {
+		var c = document.getElementById("canvas");
+		var ctx=c.getContext("2d");
+		ctx.drawImage(this.image, 0 ,0, this.imageWidth, this.imageHeight,
+								  0, 0, 100, 100);
+	  }
   }
 }

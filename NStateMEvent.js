@@ -61,6 +61,12 @@ class NStateMEvent
     }
   }
 
+  non_deterministic()
+  {
+    this.availableEvents[Math.floor(Math.random() * this.availableEvents.length)].transition(this);
+
+  }
+
   changeState(event)
   {
     this.currentState = event.transition(this.currentState);
@@ -73,7 +79,6 @@ class NStateMEvent
 
   draw()
   {
-
     this.currentState.draw()
   }
 
@@ -128,26 +133,7 @@ class NStateMEvent
         }
       }
 
-      /*
 
-      // Left
-      ctx.fillText(this.firstState.name,10,80);
-      ctx.fillText(this.secondState.name,10,130);
-      // Middle
-      ctx.fillText(this.firstEvent.id,210,80);
-      if(this.secondEvent == null)
-      {
-        ctx.fillText(this.firstEvent.id,210,130);
-      }
-      else {
-        ctx.fillText(this.secondEvent.id,210,130);
-      }
-
-      // Right
-      ctx.fillText(this.firstState.name,410,80);
-      ctx.fillText(this.secondState.name,410,130);
-
-      */
 
       // Drawing lines
       ctx.beginPath();
@@ -158,17 +144,7 @@ class NStateMEvent
         ctx.stroke();
       }
 
-      /*
 
-      // Horizontal lines
-      ctx.moveTo(0,50);
-      ctx.lineTo(600,50);
-      ctx.stroke();
-      ctx.moveTo(0,100);
-      ctx.lineTo(600,100);
-      ctx.stroke();
-
-      */
 
       // Diagonal lines
       ctx.moveTo(200,0);
@@ -181,4 +157,57 @@ class NStateMEvent
 
   }
 
+  drawGraph()
+  {
+    var obj = {states: [], transitions:{}};
+    for (var i = 0; i < this.states.length; i++) {
+      obj.states.push(this.states[i].name);
+    }
+
+    var transitionJSON = {};
+
+    for (var i = 0; i < this.allEvents.length; i++) {
+      transitionJSON[this.allEvents[i].id] = [];
+      transitionJSON[this.allEvents[i].id].push(this.allEvents[i].firstState.name);
+      transitionJSON[this.allEvents[i].id].push(this.allEvents[i].secondState.name);
+    }
+
+    obj.transitions = transitionJSON;
+
+    console.log(obj);
+
+    var id = this.id.replace(/\s+/g, '');
+
+    if (document.getElementById("Graph"+id) === null)
+    {
+      var canv = document.createElement("Canvas");  // Create canvas
+      canv.id = 'Table'+ id // give id
+      document.body.appendChild(canv);  // add canvas to document
+
+    }
+    else{
+      var canv = document.getElementById("Graph"+id);
+    }
+
+    var ctx = canv.getContext("2d");
+    var stateString = JSON.stringify(Object.keys(obj)[0])
+    stateString = stateString + ":" + JSON.stringify(obj.states);
+    ctx.canvas.width = stateString.length * 7;
+    var numOfTransitions = Object.keys(obj.transitions).length;
+    ctx.canvas.height = numOfTransitions * 45;
+    ctx.font = "15px Arial";
+    ctx.fillText(stateString, 10, 50);
+    var i = 2
+    for(var key in obj.transitions)
+    {
+      var tranString = JSON.stringify(key);
+      tranString = tranString + ": " + JSON.stringify(obj.transitions[key]);
+      ctx.fillText(tranString, 10, 40 * i);
+      i = i + 1;
+    }
+
+
+
+
+  }
 }
