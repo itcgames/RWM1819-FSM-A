@@ -69,7 +69,7 @@ class NStateMEvent
 
   changeState(event)
   {
-    this.currentState = event.transition(this, this.currentState);
+    this.currentState = event.transition(this, this.currentState.name);
   }
 
   update()

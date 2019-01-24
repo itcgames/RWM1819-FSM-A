@@ -267,10 +267,12 @@ function main()
 
   nmFSM.updateAvailableEvents(true);
 
+  nmFSM.changeState(eventKey);
+
   document.getElementById("canvas").onclick = function() {fsm.changeState()};
 
   nmFSM.drawTable();
   nmFSM.drawGraph();
-  nmFSM.non_deterministic();
-  nmFSM.non_deterministic();
+  //nmFSM.non_deterministic();
+  //nmFSM.non_deterministic();
 }
