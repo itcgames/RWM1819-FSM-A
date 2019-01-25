@@ -114,7 +114,7 @@ class Event
         }
         else // Error state not found
         {
-          console.log("Transition error! " + state.name + " not found in event " + this.id);
+          console.log("Transition error! " + fsm.currentState.name + " not found in event " + this.id);
         }
       }
       else {
@@ -135,7 +135,7 @@ class Event
         }
         else // Error state not found
         {
-          console.log("Transition error! " + state.name + " not found in event " + this.id);
+          console.log("Transition error! " + fsm.currentState.name + " not found in event " + this.id);
         }
       }
 
