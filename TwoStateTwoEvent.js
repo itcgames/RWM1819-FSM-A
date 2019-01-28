@@ -10,6 +10,16 @@ class TwoStateTwoEvent {
     {
       this.secondEvent = event2;
     }
+
+  }
+
+  createTrigger()
+  {
+    var canv = document.createElement("Canvas");  // Create canvas
+    canv.id = this.id // give id
+    document.body.appendChild(canv);  // add canvas to document
+    canv.style="border:1px solid #d3d3d3;"
+    this.draw()
   }
 
   changeState()
@@ -22,6 +32,7 @@ class TwoStateTwoEvent {
     {
       this.firstEvent.transition(this);
     }
+    this.draw()
   }
 
   useEvent(event)
@@ -47,7 +58,17 @@ class TwoStateTwoEvent {
 
   draw()
   {
-    this.currentState.draw();
+    this.currentState.draw(this.id);
+  }
+
+  non_deterministic()
+  {
+    console.log("Flip")
+    var rndState = (Math.floor(Math.random() * 2));
+    if(rndState === 0)
+    {
+      this.changeState()
+    }
   }
 
   drawTable()
@@ -67,7 +88,6 @@ class TwoStateTwoEvent {
       canv.width = 600;  // get original canvas width
       canv.style = "border:1px solid #d3d3d3;"  // Canvas style
       var c = document.getElementById("Table"+id);
-      console.log(c)
       var ctx=canv.getContext("2d");
       ctx.font = "20px Arial";
       // Left Column Text
@@ -86,8 +106,8 @@ class TwoStateTwoEvent {
       }
       // Right Column Text
       ctx.fillText("Next State",410,30);
-      ctx.fillText(this.firstState.name,410,80);
-      ctx.fillText(this.secondState.name,410,130);
+      ctx.fillText(this.secondState.name,410,80);
+      ctx.fillText(this.firstState.name,410,130);
       // Drawing lines
       ctx.beginPath();
       // Horizontal lines
@@ -106,5 +126,65 @@ class TwoStateTwoEvent {
       ctx.stroke();
 
 
+  }
+
+  drawGraph()
+  {
+    var obj = {states: [], transitions:{}};
+
+    if(this.firstState != undefined)
+    {
+      obj.states.push(this.firstState.name);
+    }
+    if(this.secondState != undefined)
+    {
+      obj.states.push(this.secondState.name);
+    }
+
+    var transitionJSON = {};
+
+    transitionJSON[this.firstEvent.id] = [];
+    transitionJSON[this.firstEvent.id].push(this.firstEvent.firstState.name);
+    transitionJSON[this.firstEvent.id].push(this.firstEvent.secondState.name);
+
+    if(this.secondEvent != undefined)
+    {
+      transitionJSON[this.secondEvent.id] = [];
+      transitionJSON[this.secondEvent.id].push(this.secondEvent.firstState.name);
+      transitionJSON[this.secondEvent.id].push(this.secondEvent.secondState.name);
+    }
+
+    obj.transitions = transitionJSON;
+
+
+    var id = this.id.replace(/\s+/g, '');
+
+    if (document.getElementById("Graph"+id) === null)
+    {
+      var canv = document.createElement("Canvas");  // Create canvas
+      canv.id = 'Table'+ id // give id
+      document.body.appendChild(canv);  // add canvas to document
+
+    }
+    else{
+      var canv = document.getElementById("Graph"+id);
+    }
+
+    var ctx = canv.getContext("2d");
+    var stateString = JSON.stringify(Object.keys(obj)[0])
+    stateString = stateString + ":" + JSON.stringify(obj.states);
+    ctx.canvas.width = stateString.length * 7;
+    var numOfTransitions = Object.keys(obj.transitions).length;
+    ctx.canvas.height = 45 + numOfTransitions * 45;
+    ctx.font = "15px Arial";
+    ctx.fillText(stateString, 10, 50);
+    var i = 2
+    for(var key in obj.transitions)
+    {
+      var tranString = JSON.stringify(key);
+      tranString = tranString + ": " + JSON.stringify(obj.transitions[key]);
+      ctx.fillText(tranString, 10, 40 * i);
+      i = i + 1;
+    }
   }
 }

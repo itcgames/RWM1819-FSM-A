@@ -8,6 +8,15 @@ class NStateMEvent
     this.states.push(state);
     this.allEvents = [];
     this.availableEvents = [];
+  }
+
+  createTrigger()
+  {
+    var canv = document.createElement("Canvas");  // Create canvas
+    canv.id = this.id // give id
+    canv.width = 0;
+    canv.height = 0;
+    document.body.appendChild(canv);  // add canvas to document
     this.draw()
   }
 
@@ -79,7 +88,7 @@ class NStateMEvent
 
   draw()
   {
-    this.currentState.draw()
+    this.currentState.draw(this.id)
   }
 
   drawTable()
@@ -109,7 +118,6 @@ class NStateMEvent
       canv.width = 600;  // get original canvas width
       canv.style = "border:1px solid #d3d3d3;"  // Canvas style
       var c = document.getElementById("Table"+id);
-      console.log(c)
       var ctx=canv.getContext("2d");
       ctx.font = "20px Arial";
       // Left Column Text
@@ -173,8 +181,6 @@ class NStateMEvent
     }
 
     obj.transitions = transitionJSON;
-
-    console.log(obj);
 
     var id = this.id.replace(/\s+/g, '');
 

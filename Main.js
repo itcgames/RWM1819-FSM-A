@@ -13,7 +13,7 @@ function main()
   var fsm;
 
   stateOnImage = new Image();
-  stateOnImage.src = '../Images/lightswitchOn.png';
+  stateOnImage.src = 'Images/lightswitchOn.png';
   stateOn = new State("On", {
       width: 419,
       height: 408,
@@ -21,7 +21,7 @@ function main()
     });
 
   stateOffImage = new Image();
-  stateOffImage.src = '../Images/lightswitchOff.png';
+  stateOffImage.src = 'Images/lightswitchOff.png';
   stateOff = new State("Off", {
       width: 419,
       height: 408,
@@ -32,9 +32,33 @@ function main()
   eventOn = new Event("Turn On", stateOff, stateOn, false)
   eventOff = new Event("Turn Off", stateOn, stateOff, false)
 
-  fsm = new TwoStateTwoEvent("Light Switch", stateOn, stateOff, eventSwitch);
+  fsm = new TwoStateTwoEvent("LightSwitch", stateOn, stateOff, eventSwitch);
+  fsm.createTrigger();
 
+  var para = document.createElement("p");  // Create paragraph
+  para.id = "lightTable" // give id
+  para.innerHTML = "Light switch table"
+  document.body.appendChild(para);  // add canvas to document
   fsm.drawTable()
+
+  para = document.createElement("p");  // Create canvas
+  para.id = "lightGraph" // give id
+  para.innerHTML = "Light switch graph"
+  document.body.appendChild(para);  // add canvas to document
+  fsm.drawGraph()
+
+  document.getElementById("LightSwitch").onclick = function() {fsm.changeState()};
+
+
+  var heading2 = document.createElement("h2");  // Create canvas
+  heading2.id = "gearHeading" // give id
+  heading2.innerHTML = "N state M event FSM"
+  document.body.appendChild(heading2);  // add canvas to document
+
+  para = document.createElement("p");  // Create canvas
+  para.id = "gearstick" // give id
+  para.innerHTML = "Click on a action to change state"
+  document.body.appendChild(para);  // add canvas to document
 
   var nmFSM;
   var stateGearStickOff;
@@ -56,7 +80,7 @@ function main()
   var event5_6;
 
   var gearStickImage = new Image();
-  gearStickImage.src = '../Images/gearstick.jfif';
+  gearStickImage.src = 'Images/gearstick.jfif';
 
   stateGearStickOff = new State("Off", {
     width: 1200,
@@ -129,18 +153,19 @@ function main()
 
 
   carKey = new Image();
-  carKey.src = '../Images/carkey.jpeg';
+  carKey.src = 'Images/carkey.jpeg';
 
   carReverse = new Image();
-  carReverse.src = '../Images/reverse.jpg';
+  carReverse.src = 'Images/reverse.jpg';
 
   carUp = new Image();
-  carUp.src = '../Images/up.png';
+  carUp.src = 'Images/up.png';
 
   carDown = new Image();
-  carDown.src = '../Images/down.png';
+  carDown.src = 'Images/down.png';
 
   nmFSM = new NStateMEvent("Gear Stick", stateGearStickOff);
+  nmFSM.createTrigger()
 
   eventKey.addTrigger({
       id: "carKey",
@@ -264,13 +289,75 @@ function main()
   nmFSM.addEvent(event4_3);
   nmFSM.addEvent(event5_4);
   nmFSM.addEvent(event6_5);
-  
+
   nmFSM.updateAvailableEvents(true);
 
-  document.getElementById("canvas").onclick = function() {fsm.changeState()};
+  para = document.createElement("p");  // Create canvas
+  para.id = "gearTable" // give id
+  para.innerHTML = "Gear stick table"
+  document.body.appendChild(para);  // add canvas to document
 
   nmFSM.drawTable();
+
+  para = document.createElement("p");  // Create canvas
+  para.id = "gearGraph" // give id
+  para.innerHTML = "Gear stick graph"
+  document.body.appendChild(para);  // add canvas to document
+
   nmFSM.drawGraph();
   //nmFSM.non_deterministic();
   //nmFSM.non_deterministic();
+
+  var heading2 = document.createElement("h2");  // Create canvas
+  heading2.id = "coinHeading" // give id
+  heading2.innerHTML = "Non deterministic event"
+  document.body.appendChild(heading2);  // add canvas to document
+
+  para = document.createElement("p");  // Create canvas
+  para.id = "coinFlip" // give id
+  para.innerHTML = "Click on the image to flip the coin"
+  document.body.appendChild(para);  // add canvas to document
+
+  var stateHead;
+  var stateTail;
+  var eventFlip;
+  var fsmCoin;
+
+  stateHeadImage = new Image();
+  stateHeadImage.src = 'Images/heads.jpg';
+  stateHead = new State("Heads", {
+      width: 316,
+      height: 316,
+      image: stateHeadImage
+    });
+
+  stateTailImage = new Image();
+  stateTailImage.src = 'Images/tails.jpg';
+  stateTail = new State("Tails", {
+      width: 400,
+      height: 400,
+      image: stateTailImage
+    });
+
+  eventFlip = new Event("Flip", stateHead, stateTail, true)
+
+  fsmCoin = new TwoStateTwoEvent("CoinFlip", stateHead, stateTail, eventFlip);
+  fsmCoin.createTrigger()
+
+  para = document.createElement("p");  // Create canvas
+  para.id = "coinTable" // give id
+  para.innerHTML = "Coin table"
+  document.body.appendChild(para);  // add canvas to document
+
+  fsmCoin.drawTable()
+
+  para = document.createElement("p");  // Create canvas
+  para.id = "coinGraph" // give id
+  para.innerHTML = "Coin graph"
+  document.body.appendChild(para);  // add canvas to document
+
+  fsmCoin.drawGraph()
+
+  document.getElementById("CoinFlip").onclick = function() {fsmCoin.non_deterministic()};
+
 }
